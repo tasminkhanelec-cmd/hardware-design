@@ -1,0 +1,40 @@
+module testbench;
+  logic [31:0] n,m;
+  logic clk,reset;
+  
+  initial begin
+    clk = 0;
+    forever #5 clk=~clk;
+  end
+  
+  game DUT
+  (.n(n),
+   .clk(clk),
+   .reset(reset),
+   .m(m)
+  );
+  
+  initial begin
+    n = 12;
+    reset = 1; 
+    #6;
+    reset = 0;
+    
+    while(m!==1)
+      begin
+        $display("output number is %0d", m); 
+        #10;
+      end
+    $display("output number is %0d", m); 
+    $finish;  
+  end
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+  end
+  
+  
+endmodule
+  
+  
