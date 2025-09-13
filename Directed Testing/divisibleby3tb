@@ -1,0 +1,33 @@
+module tb;
+  logic [15:0] number;
+  logic clk, reset, out, start;
+  
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+  
+  divisible DUT(
+    .clk(clk),
+    .reset(reset),
+    .out(out),
+    .start(start),
+    .number(number));
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+  end
+  
+  initial begin
+    reset = 1 ;
+    number = 9;
+    #6;
+    reset = 0;
+    while(start) begin 
+      #10;
+    end
+    $display("output %0b for input %0d", out, number);
+    $finish;
+  end
+endmodule
